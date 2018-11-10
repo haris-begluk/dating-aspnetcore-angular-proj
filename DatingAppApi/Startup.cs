@@ -12,6 +12,9 @@ using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Logging;
 using Microsoft.Extensions.Options; 
 using Microsoft.EntityFrameworkCore;
+using Microsoft.AspNetCore.Authentication.JwtBearer;
+using Microsoft.IdentityModel.Tokens;
+using System.Text;
 
 namespace DatingAppApi
 {
@@ -30,7 +33,17 @@ namespace DatingAppApi
             services.AddScoped<IAuthRepository, AuthRepository>();//Adding dependency injection 
             services.AddCors(); //Access-Control-Allow-Origin: *
             services.AddDbContext<DataContext>( x => x.UseSqlite(Configuration.GetConnectionString("DefaultConnection")));
-            services.AddMvc().SetCompatibilityVersion(CompatibilityVersion.Version_2_1);
+            services.AddMvc().SetCompatibilityVersion(CompatibilityVersion.Version_2_1); 
+            services.AddAuthentication(JwtBearerDefaults.AuthenticationScheme) 
+            .AddJwtBearer( options => { 
+                options.TokenValidationParameters = new TokenValidationParameters{ 
+                    ValidateIssuerSigningKey = true, 
+                    IssuerSigningKey = new SymmetricSecurityKey(Encoding.ASCII
+                    .GetBytes(Configuration.GetSection("AppSettings:Token").Value)), 
+                    ValidateIssuer = false, 
+                    ValidateAudience = false
+                };
+            });
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
@@ -47,7 +60,7 @@ namespace DatingAppApi
 
             //app.UseHttpsRedirection(); 
             app.UseCors( x => x.AllowAnyOrigin().AllowAnyMethod().AllowAnyHeader()); //Access-Control-Allow-Origin: *
-
+            app.UseAuthentication();
             app.UseMvc();
         }
     }
