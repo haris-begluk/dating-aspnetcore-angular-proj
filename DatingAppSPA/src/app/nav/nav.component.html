@@ -17,29 +17,13 @@
       placeholder="Username" 
       name="username" 
       required  
-      #username="ngModel"
       [(ngModel)]="model.username">
       <input class="form-control mr-sm-2" type="password" 
       placeholder="Password" 
       name="password" 
       required  
-      #password="ngModel"
       [(ngModel)]="model.password">
-      <button class="btn btn-success my-2 my-sm-0" type="submit">Login</button>
+      <button [disabled]="!loginForm.valid" class="btn btn-success my-2 my-sm-0" type="submit">Login</button>
     </form>
     
 </nav> 
-<pre> 
-  Form Valid: {{loginForm.valid}} 
-  Form Touched: {{loginForm.touched}} 
-  Form Dirty: {{loginForm.dirty}} 
-  Form Values: {{loginForm.value | json}} 
-  Username Valid: {{username.valid}} 
-  Username Touched: {{username.touched}}  
-  Username Dirty: {{username.dirty}}
-  Username Value: {{ username.value}} 
-  Password Valid: {{password.valid}} 
-  Password Touched: {{password.touched}}  
-  Password Dirty: {{password.dirty}}
-  Password Value: {{ password.value}}
-</pre>
