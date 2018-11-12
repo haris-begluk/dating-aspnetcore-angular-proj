@@ -42,7 +42,7 @@ namespace DatingAppApi.Controllers
         [HttpPost("login")]
         public async Task<IActionResult> Login(UserForLoginDto userForLoginDto)
         {
-            throw new Exception("Computer sad no!");
+            // throw new Exception("Computer sad no!");
             //Checking is user stored in database
             var userFromRepo = await _repo.Login(userForLoginDto.Username.ToLower(), userForLoginDto.Password);
 
