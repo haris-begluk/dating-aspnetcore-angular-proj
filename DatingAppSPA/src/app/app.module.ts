@@ -1,3 +1,4 @@
+import { AlertifyService } from './services/alertify.service';
 import { AuthService } from './services/auth.service';
 import { BrowserModule } from '@angular/platform-browser';
 import { NgModule } from '@angular/core';
@@ -12,7 +13,7 @@ import { ErrorInterceptorProvider } from './services/error.inteceptor';
 @NgModule({
   declarations: [AppComponent, NavComponent, HomeComponent, RegisterComponent],
   imports: [BrowserModule, HttpClientModule, FormsModule],
-  providers: [AuthService, ErrorInterceptorProvider],
+  providers: [AuthService, ErrorInterceptorProvider, AlertifyService],
   bootstrap: [AppComponent]
 })
 export class AppModule {}
