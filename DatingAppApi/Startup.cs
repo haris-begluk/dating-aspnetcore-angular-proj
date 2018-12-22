@@ -39,6 +39,7 @@ namespace DatingAppApi
             services.AddDbContext<DataContext>(x => x.UseSqlite(Configuration.GetConnectionString("DefaultConnection")));
             services.AddMvc().SetCompatibilityVersion(CompatibilityVersion.Version_2_1);
             services.AddTransient<Seed>();
+            services.AddScoped<IDatingRepository, DatingRepository>();
             services.AddAuthentication(JwtBearerDefaults.AuthenticationScheme)
             .AddJwtBearer(options =>
             {
@@ -79,7 +80,7 @@ namespace DatingAppApi
             }
 
             //app.UseHttpsRedirection();  
-            seeder.SeedUsers();
+            //seeder.SeedUsers();
             app.UseCors(x => x.AllowAnyOrigin().AllowAnyMethod().AllowAnyHeader()); //Access-Control-Allow-Origin: *
             app.UseAuthentication();
             app.UseMvc();
