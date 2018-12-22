@@ -38,6 +38,7 @@ namespace DatingAppApi
             services.AddCors(); //Access-Control-Allow-Origin: *
             services.AddDbContext<DataContext>(x => x.UseSqlite(Configuration.GetConnectionString("DefaultConnection")));
             services.AddMvc().SetCompatibilityVersion(CompatibilityVersion.Version_2_1);
+            services.AddTransient<Seed>();
             services.AddAuthentication(JwtBearerDefaults.AuthenticationScheme)
             .AddJwtBearer(options =>
             {
@@ -53,7 +54,7 @@ namespace DatingAppApi
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
-        public void Configure(IApplicationBuilder app, IHostingEnvironment env)
+        public void Configure(IApplicationBuilder app, IHostingEnvironment env, Seed seeder)
         {
             if (env.IsDevelopment())
             {
@@ -77,7 +78,8 @@ namespace DatingAppApi
                 // app.UseHsts();
             }
 
-            //app.UseHttpsRedirection(); 
+            //app.UseHttpsRedirection();  
+            seeder.SeedUsers();
             app.UseCors(x => x.AllowAnyOrigin().AllowAnyMethod().AllowAnyHeader()); //Access-Control-Allow-Origin: *
             app.UseAuthentication();
             app.UseMvc();
