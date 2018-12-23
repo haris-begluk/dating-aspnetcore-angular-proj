@@ -19,6 +19,7 @@ using System.Net;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Diagnostics;
 using DatingAppApi.Helpers;
+using AutoMapper;
 
 namespace DatingAppApi
 {
@@ -36,6 +37,7 @@ namespace DatingAppApi
         {
             services.AddScoped<IAuthRepository, AuthRepository>();//Adding dependency injection 
             services.AddCors(); //Access-Control-Allow-Origin: *
+            services.AddAutoMapper();
             services.AddDbContext<DataContext>(x => x.UseSqlite(Configuration.GetConnectionString("DefaultConnection")));
             services.AddMvc().SetCompatibilityVersion(CompatibilityVersion.Version_2_1)
             .AddJsonOptions(opt =>
