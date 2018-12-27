@@ -1,3 +1,5 @@
+import { AlertifyService } from './../../services/alertify.service';
+import { UserService } from './../../services/user.service';
 import { AuthService } from './../../services/auth.service';
 import { environment } from 'src/environments/environment';
 import { Component, Input, OnInit } from '@angular/core';
@@ -14,7 +16,11 @@ export class PhotoEditorComponent implements OnInit {
   public uploader: FileUploader;
   public hasBaseDropZoneOver = false;
   baseUrl = environment.apiUrl;
-  constructor(private authService: AuthService) {}
+  constructor(
+    private authService: AuthService,
+    private userService: UserService,
+    private alertify: AlertifyService
+  ) {}
 
   ngOnInit() {
     this.initializeUploader();
@@ -52,5 +58,17 @@ export class PhotoEditorComponent implements OnInit {
         this.photos.push(photo);
       }
     };
+  }
+  setMainPhoto(photo: Photo) {
+    this.userService
+      .setMainPhoto(this.authService.decodedToken.nameid, photo.id)
+      .subscribe(
+        () => {
+          console.log('Successfully set to main!');
+        },
+        error => {
+          this.alertify.error(error);
+        }
+      );
   }
 }
