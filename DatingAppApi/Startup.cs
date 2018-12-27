@@ -37,6 +37,7 @@ namespace DatingAppApi
         {
             services.AddScoped<IAuthRepository, AuthRepository>();//Adding dependency injection 
             services.AddCors(); //Access-Control-Allow-Origin: *
+            services.Configure<CloudinarySettings>(Configuration.GetSection("CloudinarySettings"));
             services.AddAutoMapper();
             services.AddDbContext<DataContext>(x => x.UseSqlServer(Configuration.GetConnectionString("DefaultConnection")));
             services.AddMvc().SetCompatibilityVersion(CompatibilityVersion.Version_2_1)
