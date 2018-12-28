@@ -1,15 +1,15 @@
-import { AlertifyService } from './../../services/alertify.service';
-import { UserService } from './../../services/user.service';
-import { AuthService } from './../../services/auth.service';
-import { environment } from 'src/environments/environment';
-import { Component, Input, OnInit, Output, EventEmitter } from '@angular/core';
-import { Photo } from 'src/app/_models/photo';
-import { FileUploader } from 'ng2-file-upload';
+import { AlertifyService } from "./../../services/alertify.service";
+import { UserService } from "./../../services/user.service";
+import { AuthService } from "./../../services/auth.service";
+import { environment } from "src/environments/environment";
+import { Component, Input, OnInit, Output, EventEmitter } from "@angular/core";
+import { Photo } from "src/app/_models/photo";
+import { FileUploader } from "ng2-file-upload";
 
 @Component({
-  selector: 'app-photo-editor',
-  templateUrl: './photo-editor.component.html',
-  styleUrls: ['./photo-editor.component.css']
+  selector: "app-photo-editor",
+  templateUrl: "./photo-editor.component.html",
+  styleUrls: ["./photo-editor.component.css"]
 })
 export class PhotoEditorComponent implements OnInit {
   @Input() photos: Photo[];
@@ -34,12 +34,12 @@ export class PhotoEditorComponent implements OnInit {
     this.uploader = new FileUploader({
       url:
         this.baseUrl +
-        'users/' +
+        "users/" +
         this.authService.decodedToken.nameid +
-        '/photos',
-      authToken: 'Bearer ' + localStorage.getItem('token'),
+        "/photos",
+      authToken: "Bearer " + localStorage.getItem("token"),
       isHTML5: true,
-      allowedFileType: ['image'],
+      allowedFileType: ["image"],
       removeAfterUpload: true,
       autoUpload: false,
       maxFileSize: 10 * 1024 * 1024
@@ -72,7 +72,7 @@ export class PhotoEditorComponent implements OnInit {
           this.authService.changeMemberPhoto(photo.url);
           this.authService.currentUser.photoUrl = photo.url;
           localStorage.setItem(
-            'user',
+            "user",
             JSON.stringify(this.authService.currentUser)
           );
         },
@@ -80,5 +80,20 @@ export class PhotoEditorComponent implements OnInit {
           this.alertify.error(error);
         }
       );
+  }
+  deletePhoto(id: number) {
+    this.alertify.confirm("Are you sure you want to delte this photo?", () => {
+      this.userService
+        .deletePhoto(this.authService.decodedToken.nameid, id)
+        .subscribe(
+          () => {
+            this.photos.splice(this.photos.findIndex(p => p.id === id), 1);
+            this.alertify.success("Photo has been deleted.");
+          },
+          error => {
+            this.alertify.error("Faild to delete the photo!");
+          }
+        );
+    });
   }
 }
