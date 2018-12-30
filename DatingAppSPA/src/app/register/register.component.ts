@@ -2,6 +2,7 @@ import { AlertifyService } from "./../services/alertify.service";
 import { Component, OnInit, Output, EventEmitter } from "@angular/core";
 import { AuthService } from "../services/auth.service";
 import { FormGroup, FormControl, Validators } from "@angular/forms";
+import { PARAMETERS } from "@angular/core/src/util/decorators";
 
 @Component({
   selector: "app-register",
@@ -16,15 +17,23 @@ export class RegisterComponent implements OnInit {
   constructor(private auth: AuthService, private alertify: AlertifyService) {}
 
   ngOnInit() {
-    this.registerForm = new FormGroup({
-      username: new FormControl("", Validators.required),
-      password: new FormControl("", [
-        Validators.required,
-        Validators.minLength(4),
-        Validators.maxLength(8)
-      ]),
-      confirmPassword: new FormControl("", Validators.required)
-    });
+    this.registerForm = new FormGroup(
+      {
+        username: new FormControl("", Validators.required),
+        password: new FormControl("", [
+          Validators.required,
+          Validators.minLength(4),
+          Validators.maxLength(8)
+        ]),
+        confirmPassword: new FormControl("", Validators.required)
+      },
+      this.passwordMatchValidator
+    );
+  }
+  passwordMatchValidator(par: FormGroup) {
+    return par.get("password").value === par.get("confirmPassword").value
+      ? null
+      : { mismatch: true };
   }
   register() {
     console.log(this.registerForm.value);
