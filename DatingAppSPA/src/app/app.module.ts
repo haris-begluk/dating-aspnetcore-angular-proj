@@ -17,7 +17,11 @@ import { FormsModule, ReactiveFormsModule } from "@angular/forms";
 import { HomeComponent } from "./home/home.component";
 import { RegisterComponent } from "./register/register.component";
 import { ErrorInterceptorProvider } from "./services/error.inteceptor";
-import { BsDropdownModule, TabsModule } from "ngx-bootstrap";
+import {
+  BsDropdownModule,
+  TabsModule,
+  BsDatepickerModule
+} from "ngx-bootstrap";
 import { MemberListComponent } from "./members/member-list/member-list.component";
 import { ListsComponent } from "./lists/lists.component";
 import { MessagesComponent } from "./messages/messages.component";
@@ -55,6 +59,7 @@ export function tokenGetter() {
     NgxGalleryModule,
     FileUploadModule,
     BsDropdownModule.forRoot(),
+    BsDatepickerModule.forRoot(),
     TabsModule.forRoot(),
     RouterModule.forRoot(appRoutes),
     JwtModule.forRoot({
