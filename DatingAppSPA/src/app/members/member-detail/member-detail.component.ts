@@ -1,20 +1,22 @@
-import { AlertifyService } from './../../services/alertify.service';
-import { UserService } from './../../services/user.service';
-import { Component, OnInit } from '@angular/core';
-import { User } from 'src/app/_models/user';
-import { ActivatedRoute } from '@angular/router';
+import { AlertifyService } from "./../../services/alertify.service";
+import { UserService } from "./../../services/user.service";
+import { Component, OnInit, ViewChild } from "@angular/core";
+import { User } from "src/app/_models/user";
+import { ActivatedRoute } from "@angular/router";
 import {
   NgxGalleryOptions,
   NgxGalleryImage,
   NgxGalleryAnimation
-} from 'ngx-gallery';
+} from "ngx-gallery";
+import { TabsetComponent } from "ngx-bootstrap";
 
 @Component({
-  selector: 'app-member-detail',
-  templateUrl: './member-detail.component.html',
-  styleUrls: ['./member-detail.component.css']
+  selector: "app-member-detail",
+  templateUrl: "./member-detail.component.html",
+  styleUrls: ["./member-detail.component.css"]
 })
 export class MemberDetailComponent implements OnInit {
+  @ViewChild("memberTabs") memberTabs: TabsetComponent;
   user: User;
   galleryOptions: NgxGalleryOptions[];
   galleryImages: NgxGalleryImage[];
@@ -26,12 +28,16 @@ export class MemberDetailComponent implements OnInit {
 
   ngOnInit() {
     this.route.data.subscribe(data => {
-      this.user = data['user'];
+      this.user = data["user"];
+    });
+    this.route.queryParams.subscribe(parms => {
+      const selectedTab = parms["tab"];
+      this.memberTabs.tabs[selectedTab > 0 ? selectedTab : 0].active = true;
     });
     this.galleryOptions = [
       {
-        width: '500px',
-        height: '500px',
+        width: "500px",
+        height: "500px",
         imagePercent: 100,
         thumbnailsColumns: 4,
         imageAnimation: NgxGalleryAnimation.Slide,
@@ -51,5 +57,8 @@ export class MemberDetailComponent implements OnInit {
       });
     }
     return imagesUrl;
+  }
+  selectTab(tabId: number) {
+    this.memberTabs.tabs[tabId].active = true;
   }
 }
