@@ -56,7 +56,7 @@ namespace DatingAppApi.Controllers
             //Creating claims array with two claims 
             var claims = new[]{
                 new Claim(ClaimTypes.NameIdentifier, userFromRepo.Id.ToString()),
-                new Claim(ClaimTypes.Name, userFromRepo.Username)
+                new Claim(ClaimTypes.Name, userFromRepo.UserName)
             };
             //Creating signin key 
             var key = new SymmetricSecurityKey(Encoding.UTF8.GetBytes(_config.GetSection("AppSettings:Token").Value));

@@ -39,6 +39,7 @@ namespace DatingAppApi
         // This method gets called by the runtime. Use this method to add services to the container.
         public void ConfigureServices(IServiceCollection services)
         {
+
             IdentityBuilder builder = services.AddIdentityCore<User>(opt =>
             {
                 opt.Password.RequireDigit = false;
@@ -76,7 +77,7 @@ namespace DatingAppApi
                     var policy = new AuthorizationPolicyBuilder()
                     .RequireAuthenticatedUser()
                     .Build();
-                    opt.Filters.Add(new AuthorizeFilter(policy))
+                    opt.Filters.Add(new AuthorizeFilter(policy));
                 }
             ).SetCompatibilityVersion(CompatibilityVersion.Version_2_1)
             .AddJsonOptions(opt =>
@@ -93,6 +94,7 @@ namespace DatingAppApi
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
         public void Configure(IApplicationBuilder app, IHostingEnvironment env, Seed seeder)
         {
+
             if (env.IsDevelopment())
             {
                 app.UseDeveloperExceptionPage();
