@@ -20,6 +20,10 @@ using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Diagnostics;
 using DatingAppApi.Helpers;
 using AutoMapper;
+using Microsoft.AspNetCore.Identity;
+using DatingAppApi.Models;
+using Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNetCore.Mvc.Authorization;
 
 namespace DatingAppApi
 {
@@ -35,20 +39,19 @@ namespace DatingAppApi
         // This method gets called by the runtime. Use this method to add services to the container.
         public void ConfigureServices(IServiceCollection services)
         {
-            services.AddScoped<IAuthRepository, AuthRepository>();//Adding dependency injection 
-            services.AddCors(); //Access-Control-Allow-Origin: *
-            services.Configure<CloudinarySettings>(Configuration.GetSection("CloudinarySettings"));
-            services.AddAutoMapper();
-            services.AddDbContext<DataContext>(x => x.UseSqlServer(Configuration.GetConnectionString("DefaultConnection")));
-            services.AddMvc().SetCompatibilityVersion(CompatibilityVersion.Version_2_1)
-            .AddJsonOptions(opt =>
+            IdentityBuilder builder = services.AddIdentityCore<User>(opt =>
             {
-                //Without this we will get an error
-                opt.SerializerSettings.ReferenceLoopHandling = Newtonsoft.Json.ReferenceLoopHandling.Ignore;
+                opt.Password.RequireDigit = false;
+                opt.Password.RequireNonAlphanumeric = false;
+                opt.Password.RequiredLength = 4;
+                opt.Password.RequireUppercase = false;
             });
-            services.AddScoped<LogUserActivity>();
-            services.AddTransient<Seed>();
-            services.AddScoped<IDatingRepository, DatingRepository>();
+            builder = new IdentityBuilder(builder.UserType, typeof(Role), builder.Services);
+            builder.AddEntityFrameworkStores<DataContext>();
+            builder.AddRoleValidator<RoleValidator<Role>>();
+            builder.AddRoleValidator<RoleManager<Role>>();
+            builder.AddRoleValidator<SignInManager<User>>();
+
             services.AddAuthentication(JwtBearerDefaults.AuthenticationScheme)
             .AddJwtBearer(options =>
             {
@@ -61,6 +64,30 @@ namespace DatingAppApi
                     ValidateAudience = false
                 };
             });
+
+            services.AddScoped<IAuthRepository, AuthRepository>();//Adding dependency injection 
+            services.AddCors(); //Access-Control-Allow-Origin: *
+            services.Configure<CloudinarySettings>(Configuration.GetSection("CloudinarySettings"));
+            services.AddAutoMapper();
+            services.AddDbContext<DataContext>(x => x.UseSqlServer(Configuration.GetConnectionString("DefaultConnection")));
+            services.AddMvc(
+                opt =>
+                {
+                    var policy = new AuthorizationPolicyBuilder()
+                    .RequireAuthenticatedUser()
+                    .Build();
+                    opt.Filters.Add(new AuthorizeFilter(policy))
+                }
+            ).SetCompatibilityVersion(CompatibilityVersion.Version_2_1)
+            .AddJsonOptions(opt =>
+            {
+                //Without this we will get an error
+                opt.SerializerSettings.ReferenceLoopHandling = Newtonsoft.Json.ReferenceLoopHandling.Ignore;
+            });
+            services.AddScoped<LogUserActivity>();
+            services.AddTransient<Seed>();
+            services.AddScoped<IDatingRepository, DatingRepository>();
+
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
