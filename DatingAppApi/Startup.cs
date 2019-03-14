@@ -50,8 +50,8 @@ namespace DatingAppApi
             builder = new IdentityBuilder(builder.UserType, typeof(Role), builder.Services);
             builder.AddEntityFrameworkStores<DataContext>();
             builder.AddRoleValidator<RoleValidator<Role>>();
-            builder.AddRoleValidator<RoleManager<Role>>();
-            builder.AddRoleValidator<SignInManager<User>>();
+            builder.AddRoleManager<RoleManager<Role>>();
+            builder.AddSignInManager<SignInManager<User>>();
 
             services.AddAuthentication(JwtBearerDefaults.AuthenticationScheme)
             .AddJwtBearer(options =>
@@ -66,7 +66,6 @@ namespace DatingAppApi
                 };
             });
 
-            services.AddScoped<IAuthRepository, AuthRepository>();//Adding dependency injection 
             services.AddCors(); //Access-Control-Allow-Origin: *
             services.Configure<CloudinarySettings>(Configuration.GetSection("CloudinarySettings"));
             services.AddAutoMapper();
