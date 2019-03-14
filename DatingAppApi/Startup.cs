@@ -66,6 +66,13 @@ namespace DatingAppApi
                 };
             });
 
+            services.AddAuthorization(opt =>
+            {
+                opt.AddPolicy("RequireAdminRole", policy => policy.RequireRole("Admin"));
+                opt.AddPolicy("ModeratePhotoRole", policy => policy.RequireRole("Admin", "Moderator"));
+                opt.AddPolicy("RequireVipRole", policy => policy.RequireRole("VIP"));
+            });
+
             services.AddCors(); //Access-Control-Allow-Origin: *
             services.Configure<CloudinarySettings>(Configuration.GetSection("CloudinarySettings"));
             services.AddAutoMapper();
