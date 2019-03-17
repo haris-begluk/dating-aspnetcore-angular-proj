@@ -1,3 +1,4 @@
+import { AdminPanelComponent } from "./admin/admin-panel/admin-panel.component";
 import { MessagesResolver } from "./_resolvers/messages.resolver";
 import { ListsResolver } from "./_resolvers/lists.resolver";
 import { PhotoEditorComponent } from "./members/photo-editor/photo-editor.component";
@@ -57,7 +58,8 @@ export function tokenGetter() {
     MemberEditComponent,
     PhotoEditorComponent,
     MemberMessagesComponent,
-    TimeAgoPipe
+    TimeAgoPipe,
+    AdminPanelComponent
   ],
   imports: [
     BrowserModule,

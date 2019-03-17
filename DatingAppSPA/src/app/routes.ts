@@ -1,3 +1,4 @@
+import { AdminPanelComponent } from "./admin/admin-panel/admin-panel.component";
 import { MessagesResolver } from "./_resolvers/messages.resolver";
 import { PreventUnsavedChanges } from "./_guards/prevent-unsaved-changes.guard";
 import { MemberEditResolver } from "./_resolvers/member-edit.resolver";
@@ -45,6 +46,10 @@ export const appRoutes: Routes = [
         path: "lists",
         component: ListsComponent,
         resolve: { users: ListsResolver }
+      },
+      {
+        path: "admin",
+        component: AdminPanelComponent
       }
     ]
   },
