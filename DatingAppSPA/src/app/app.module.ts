@@ -1,3 +1,4 @@
+import { HasRoleDirective } from "./_directives/hasRole.directive";
 import { AdminPanelComponent } from "./admin/admin-panel/admin-panel.component";
 import { MessagesResolver } from "./_resolvers/messages.resolver";
 import { ListsResolver } from "./_resolvers/lists.resolver";
@@ -59,7 +60,8 @@ export function tokenGetter() {
     PhotoEditorComponent,
     MemberMessagesComponent,
     TimeAgoPipe,
-    AdminPanelComponent
+    AdminPanelComponent,
+    HasRoleDirective
   ],
   imports: [
     BrowserModule,
