@@ -53,7 +53,6 @@ namespace DatingAppApi.Controllers
 
             // selected = selectedRoles != null ? selectedRoles : new string[] {};
             selectedRoles = selectedRoles ?? new string[] { };
-            var isInRole = await _userManager.IsInRoleAsync(user, "Admin");
 
             var result = await _userManager.AddToRolesAsync(user, selectedRoles.Except(userRoles));
             if (!result.Succeeded)

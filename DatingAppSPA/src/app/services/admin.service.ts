@@ -12,7 +12,7 @@ export class AdminService {
   constructor(private http: HttpClient) {}
 
   getUsersWithRoles() {
-    return this.http.get(this.baseUrl + "admin/userWithRoles");
+    return this.http.get(this.baseUrl + "admin/usersWithRoles");
   }
   updateUserRoles(user: User, roles: {}) {
     return this.http.post(
