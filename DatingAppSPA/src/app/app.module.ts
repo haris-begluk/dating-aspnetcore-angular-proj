@@ -1,3 +1,5 @@
+import { AdminService } from "./services/admin.service";
+import { PhotoManagementComponent } from "./admin/photo-management/photo-management.component";
 import { HasRoleDirective } from "./_directives/hasRole.directive";
 import { AdminPanelComponent } from "./admin/admin-panel/admin-panel.component";
 import { MessagesResolver } from "./_resolvers/messages.resolver";
@@ -40,6 +42,7 @@ import { MemberEditResolver } from "./_resolvers/member-edit.resolver";
 import { FileUploadModule } from "ng2-file-upload";
 import { TimeAgoPipe } from "time-ago-pipe";
 import { MemberMessagesComponent } from "./members/member-messages/member-messages.component";
+import { UserManagementComponent } from "./admin/user-management/user-management.component";
 
 export function tokenGetter() {
   return localStorage.getItem("token");
@@ -61,7 +64,9 @@ export function tokenGetter() {
     MemberMessagesComponent,
     TimeAgoPipe,
     AdminPanelComponent,
-    HasRoleDirective
+    HasRoleDirective,
+    UserManagementComponent,
+    PhotoManagementComponent
   ],
   imports: [
     BrowserModule,
@@ -95,7 +100,8 @@ export function tokenGetter() {
     MemberEditResolver,
     PreventUnsavedChanges,
     ListsResolver,
-    MessagesResolver
+    MessagesResolver,
+    AdminService
   ],
   bootstrap: [AppComponent]
 })
