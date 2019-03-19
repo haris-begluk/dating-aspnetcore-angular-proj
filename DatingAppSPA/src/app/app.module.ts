@@ -28,7 +28,8 @@ import {
   TabsModule,
   BsDatepickerModule,
   PaginationModule,
-  ButtonsModule
+  ButtonsModule,
+  ModalModule
 } from "ngx-bootstrap";
 import { MemberListComponent } from "./members/member-list/member-list.component";
 import { ListsComponent } from "./lists/lists.component";
@@ -43,6 +44,7 @@ import { FileUploadModule } from "ng2-file-upload";
 import { TimeAgoPipe } from "time-ago-pipe";
 import { MemberMessagesComponent } from "./members/member-messages/member-messages.component";
 import { UserManagementComponent } from "./admin/user-management/user-management.component";
+import { RolesModalComponent } from "./admin/roles-modal/roles-modal.component";
 
 export function tokenGetter() {
   return localStorage.getItem("token");
@@ -66,7 +68,8 @@ export function tokenGetter() {
     AdminPanelComponent,
     HasRoleDirective,
     UserManagementComponent,
-    PhotoManagementComponent
+    PhotoManagementComponent,
+    RolesModalComponent
   ],
   imports: [
     BrowserModule,
@@ -81,6 +84,7 @@ export function tokenGetter() {
     TabsModule.forRoot(),
     ButtonsModule.forRoot(),
     RouterModule.forRoot(appRoutes),
+    ModalModule.forRoot(),
     JwtModule.forRoot({
       config: {
         tokenGetter: tokenGetter,
@@ -103,6 +107,7 @@ export function tokenGetter() {
     MessagesResolver,
     AdminService
   ],
+  entryComponents: [RolesModalComponent],
   bootstrap: [AppComponent]
 })
 export class AppModule {}
