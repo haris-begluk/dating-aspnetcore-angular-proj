@@ -5,7 +5,8 @@ using Microsoft.AspNetCore.Identity;
 
 namespace DatingAppApi.Data
 {
-    public class DataContext : IdentityDbContext<User, Role, int, IdentityUserClaim<int>, UserRole, IdentityUserLogin<int>, IdentityRoleClaim<int>, IdentityUserToken<int>>
+    public class DataContext : IdentityDbContext<User, Role, int, IdentityUserClaim<int>,
+    UserRole, IdentityUserLogin<int>, IdentityRoleClaim<int>, IdentityUserToken<int>>
     {
         public DataContext(DbContextOptions<DataContext> options) : base(options)
         {
@@ -23,14 +24,15 @@ namespace DatingAppApi.Data
 
             builder.Entity<UserRole>(userRole =>
             {
-                userRole.HasKey(ur => new { ur.RoleId, ur.UserId });
+                userRole.HasKey(ur => new { ur.UserId, ur.RoleId });
                 userRole.HasOne(ur => ur.Role)
-                .WithMany(ur => ur.UserRoles)
+                .WithMany(r => r.UserRoles)
                 .HasForeignKey(ur => ur.RoleId)
                 .IsRequired();
-                userRole.HasOne(u => u.User)
-                .WithMany(u => u.UserRoles)
-                .HasForeignKey(u => u.UserId)
+
+                userRole.HasOne(ur => ur.User)
+                .WithMany(r => r.UserRoles)
+                .HasForeignKey(ur => ur.UserId)
                 .IsRequired();
             });
 
