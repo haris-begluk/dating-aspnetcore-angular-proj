@@ -8,7 +8,9 @@
         </div>
       </tab>
       <tab class="Photo Management" *appHasRole="['Admin','Moderator']">
-        <app-photo-management></app-photo-management>
+        <div class="container">
+          <app-user-management></app-user-management>
+        </div>
       </tab>
     </tabset>
   </div>
