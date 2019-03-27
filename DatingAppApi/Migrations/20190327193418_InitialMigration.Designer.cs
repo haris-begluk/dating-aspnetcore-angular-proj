@@ -10,8 +10,8 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace DatingAppApi.Migrations
 {
     [DbContext(typeof(DataContext))]
-    [Migration("20190310235226_IdentityMigration")]
-    partial class IdentityMigration
+    [Migration("20190327193418_InitialMigration")]
+    partial class InitialMigration
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
@@ -74,6 +74,8 @@ namespace DatingAppApi.Migrations
                     b.Property<DateTime>("DateAdded");
 
                     b.Property<string>("Description");
+
+                    b.Property<bool>("IsApproved");
 
                     b.Property<bool>("IsMain");
 
@@ -189,13 +191,13 @@ namespace DatingAppApi.Migrations
 
             modelBuilder.Entity("DatingAppApi.Models.UserRole", b =>
                 {
-                    b.Property<int>("RoleId");
-
                     b.Property<int>("UserId");
 
-                    b.HasKey("RoleId", "UserId");
+                    b.Property<int>("RoleId");
 
-                    b.HasAlternateKey("UserId", "RoleId");
+                    b.HasKey("UserId", "RoleId");
+
+                    b.HasIndex("RoleId");
 
                     b.ToTable("AspNetUserRoles");
                 });

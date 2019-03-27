@@ -73,6 +73,8 @@ namespace DatingAppApi.Migrations
 
                     b.Property<string>("Description");
 
+                    b.Property<bool>("IsApproved");
+
                     b.Property<bool>("IsMain");
 
                     b.Property<string>("PublicId");
@@ -187,13 +189,13 @@ namespace DatingAppApi.Migrations
 
             modelBuilder.Entity("DatingAppApi.Models.UserRole", b =>
                 {
-                    b.Property<int>("RoleId");
-
                     b.Property<int>("UserId");
 
-                    b.HasKey("RoleId", "UserId");
+                    b.Property<int>("RoleId");
 
-                    b.HasAlternateKey("UserId", "RoleId");
+                    b.HasKey("UserId", "RoleId");
+
+                    b.HasIndex("RoleId");
 
                     b.ToTable("AspNetUserRoles");
                 });

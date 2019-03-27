@@ -23,14 +23,15 @@ namespace DatingAppApi.Data
 
             builder.Entity<UserRole>(userRole =>
             {
-                userRole.HasKey(ur => new { ur.RoleId, ur.UserId });
+                userRole.HasKey(ur => new { ur.UserId, ur.RoleId });
                 userRole.HasOne(ur => ur.Role)
-                .WithMany(ur => ur.UserRoles)
+                .WithMany(r => r.UserRoles)
                 .HasForeignKey(ur => ur.RoleId)
                 .IsRequired();
-                userRole.HasOne(u => u.User)
-                .WithMany(u => u.UserRoles)
-                .HasForeignKey(u => u.UserId)
+
+                userRole.HasOne(ur => ur.User)
+                .WithMany(r => r.UserRoles)
+                .HasForeignKey(ur => ur.UserId)
                 .IsRequired();
             });
 
@@ -58,6 +59,8 @@ namespace DatingAppApi.Data
             .HasOne(u => u.Recipient)
             .WithMany(m => m.MessageRecieved)
             .OnDelete(DeleteBehavior.Restrict);
+
+            builder.Entity<Photo>().HasQueryFilter(p => p.IsApproved);
         }
     }
 }

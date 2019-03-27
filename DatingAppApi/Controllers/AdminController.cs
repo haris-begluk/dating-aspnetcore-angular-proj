@@ -1,10 +1,14 @@
+using CloudinaryDotNet;
+using CloudinaryDotNet.Actions;
 using DatingAppApi.Data;
 using DatingAppApi.Dtos;
+using DatingAppApi.Helpers;
 using DatingAppApi.Models;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
+using Microsoft.Extensions.Options;
 using System.Linq;
 using System.Threading.Tasks;
 
@@ -16,13 +20,21 @@ namespace DatingAppApi.Controllers
     {
         private readonly DataContext _context;
         private readonly UserManager<User> _userManager;
-
-        public AdminController(DataContext context, UserManager<User> userManager)
+        private readonly IOptions<CloudinarySettings> _cloudinaryConfig;
+        private Cloudinary _cloudinary;
+        public AdminController(DataContext context, UserManager<User> userManager,
+        IOptions<CloudinarySettings> cloudinaryConfig)
         {
+            this._cloudinaryConfig = cloudinaryConfig;
             _userManager = userManager;
 
             _context = context;
-
+            Account acc = new Account(
+                _cloudinaryConfig.Value.CloudName,
+                _cloudinaryConfig.Value.ApiKey,
+                _cloudinaryConfig.Value.ApiSecret
+            );
+            _cloudinary = new Cloudinary(acc);
         }
         [Authorize(Policy = "RequireAdminRole")]
         [HttpGet("usersWithRoles")]
@@ -67,10 +79,72 @@ namespace DatingAppApi.Controllers
         }
 
         [Authorize(Policy = "ModeratePhotoRole")]
-        [HttpGet("photosForModerators")]
-        public IActionResult GetPhotosForModeration()
+        [HttpGet("photosForModeration")]
+        public async Task<IActionResult> GetPhotosForModeration()
         {
-            return Ok("Admins or moderators can se this");
+            var photos = await _context.Photos
+                .Include(u => u.User)
+                .IgnoreQueryFilters()
+                .Where(p => p.IsApproved == false)
+                .Select(u => new
+                {
+                    Id = u.Id,
+                    UserName = u.User.UserName,
+                    Url = u.Url,
+                    IsApproved = u.IsApproved
+                }).ToListAsync();
+
+            return Ok(photos);
         }
+
+        [Authorize(Policy = "ModeratePhotoRole")]
+        [HttpPost("approvePhoto/{photoId}")]
+        public async Task<IActionResult> ApprovePhoto(int photoId)
+        {
+            var photo = await _context.Photos
+                .IgnoreQueryFilters()
+                .FirstOrDefaultAsync(p => p.Id == photoId);
+
+            photo.IsApproved = true;
+
+            await _context.SaveChangesAsync();
+
+            return Ok();
+        }
+
+        [Authorize(Policy = "ModeratePhotoRole")]
+        [HttpPost("rejectPhoto/{photoId}")]
+        public async Task<IActionResult> RejectPhoto(int photoId)
+        {
+
+            var photo = await _context.Photos
+                .IgnoreQueryFilters()
+                .FirstOrDefaultAsync(p => p.Id == photoId);
+
+            if (photo.IsMain)
+                return BadRequest("You cannot reject the main photo");
+
+            if (photo.PublicId != null)
+            {
+                var deleteParams = new DeletionParams(photo.PublicId);
+
+                var result = _cloudinary.Destroy(deleteParams);
+
+                if (result.Result == "ok")
+                {
+                    _context.Photos.Remove(photo);
+                }
+            }
+
+            if (photo.PublicId == null)
+            {
+                _context.Photos.Remove(photo);
+            }
+
+            await _context.SaveChangesAsync();
+
+            return Ok();
+        }
+
     }
 }
