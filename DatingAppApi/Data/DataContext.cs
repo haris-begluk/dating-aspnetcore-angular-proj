@@ -2,6 +2,7 @@ using Microsoft.EntityFrameworkCore;
 using DatingAppApi.Models;
 using Microsoft.AspNetCore.Identity.EntityFrameworkCore;
 using Microsoft.AspNetCore.Identity;
+using Microsoft.EntityFrameworkCore.Design;
 
 namespace DatingAppApi.Data
 {
@@ -62,6 +63,16 @@ namespace DatingAppApi.Data
             .OnDelete(DeleteBehavior.Restrict);
 
             builder.Entity<Photo>().HasQueryFilter(p => p.IsApproved);
+        }
+    }
+    public class ApplicationContextDbFactory : IDesignTimeDbContextFactory<DataContext>
+    {
+        DataContext IDesignTimeDbContextFactory<DataContext>.CreateDbContext(string[] args)
+        {
+            var optionsBuilder = new DbContextOptionsBuilder<DataContext>();
+            optionsBuilder.UseSqlServer<DataContext>("Server=tcp:ha-res-server.database.windows.net,1433;Initial Catalog=datingApplicationDB;Persist Security Info=False;User ID=adminUser;Password=KOpilic1;MultipleActiveResultSets=False;Encrypt=True;TrustServerCertificate=False;Connection Timeout=30;");
+
+            return new DataContext(optionsBuilder.Options);
         }
     }
 }

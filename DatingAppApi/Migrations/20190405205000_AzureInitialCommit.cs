@@ -4,7 +4,7 @@ using Microsoft.EntityFrameworkCore.Migrations;
 
 namespace DatingAppApi.Migrations
 {
-    public partial class InitialMigration : Migration
+    public partial class AzureInitialCommit : Migration
     {
         protected override void Up(MigrationBuilder migrationBuilder)
         {
