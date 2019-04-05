@@ -73,7 +73,7 @@ namespace DatingAppApi
                 opt.AddPolicy("ModeratePhotoRole", policy => policy.RequireRole("Admin", "Moderator"));
                 opt.AddPolicy("RequireVipRole", policy => policy.RequireRole("VIP"));
             });
-            services.BuildServiceProvider().GetService<DataContext>().Database.Migrate();//autoCreate database 
+            //services.BuildServiceProvider().GetService<DataContext>().Database.Migrate();//autoCreate database 
             services.AddCors(); //Access-Control-Allow-Origin: *
             services.Configure<CloudinarySettings>(Configuration.GetSection("CloudinarySettings"));
             services.AddAutoMapper();
@@ -125,7 +125,7 @@ namespace DatingAppApi
             }
 
             //app.UseHttpsRedirection();  
-            //seeder.SeedUsers();
+            seeder.SeedUsers();
             app.UseCors(x => x.AllowAnyOrigin().AllowAnyMethod().AllowAnyHeader()); //Access-Control-Allow-Origin: *
             app.UseAuthentication();
             app.UseDefaultFiles();
