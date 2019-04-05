@@ -24,6 +24,7 @@ using Microsoft.AspNetCore.Identity;
 using DatingAppApi.Models;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc.Authorization;
+using System.IO;
 
 namespace DatingAppApi
 {
@@ -127,7 +128,13 @@ namespace DatingAppApi
             //seeder.SeedUsers();
             app.UseCors(x => x.AllowAnyOrigin().AllowAnyMethod().AllowAnyHeader()); //Access-Control-Allow-Origin: *
             app.UseAuthentication();
-            app.UseMvc();
+            app.UseDefaultFiles();
+            app.UseStaticFiles();
+            app.UseMvc(routes =>
+            {
+                routes.MapSpaFallbackRoute("spa-fallback", new { controller = "Fallback", action = "Index" });
+            });
+
         }
     }
 }
