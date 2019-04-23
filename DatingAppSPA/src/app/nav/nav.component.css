@@ -8,3 +8,20 @@ img {
   border: 2px solid white;
   display: inline;
 }
+
+.navbar {
+  font-size: 18px;
+  background-image: linear-gradient(260deg, #a3105a 0%, #c95858 100%);
+  padding-bottom: 10px;
+}
+
+
+.navbar-brand {
+  font-size: xx-large;
+  font-family: 'Dancing Script';
+  font-weight: 900;
+}
+
+.navbar-brand:hover {
+  color: rgb(38, 36, 39);
+}

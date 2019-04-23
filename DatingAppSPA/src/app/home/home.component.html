@@ -1,18 +1,79 @@
-<div class="container mt-5">
-  <div *ngIf="!registerMode" style="text-align: center">
-    <h1>Find your match</h1>
-    <p class="lead">Come on in to view your matches... All you need to do is sign up!</p>
-    <div class="text-center">
-      <button class="btn btn-primary btn-lg mr-2" (click)="registerToggle()">Register</button>
-      <button class="btn btn-info btn-lg">Learn More</button>
+<div class="pimg1">
+
+  <div class="container">
+    <div *ngIf="!registerMode" style="text-align: center">
+      <h1>Find your match</h1>
+      <p class="lead"> All you need to do is sign up!</p>
+      <div class="text-center">
+        <button class="btn btn-primary btn-lg mr-2" (click)="registerToggle()">Register</button>
+        <button class="btn btn-info btn-lg">About Us</button>
+      </div>
+
     </div>
 
-  </div>
-  <div *ngIf="registerMode" class="container">
-    <div class="row justify-content-center">
-      <div class="col-4">
-        <app-register (cancelRegister)="cancelRegisterMode($event)"></app-register>
+    <div *ngIf="registerMode" class="container">
+      <div class="row justify-content-center">
+        <div class="col-8 offset-2">
+          <app-register (cancelRegister)="cancelRegisterMode($event)"></app-register>
+        </div>
       </div>
     </div>
+  </div>
+</div>
+
+<section class="section section-light">
+  <h2>Section One</h2>
+  <p>Lorem ipsum dolor sit amet, consectetur adipisicing elit. Ea iusto corrupti magnam natus saepe veniam numquam error
+    odit, culpa, tempore perspiciatis, doloremque autem possimus consequatur cupiditate doloribus sint dicta quo quae.
+    Maxime placeat necessitatibus natus. Consequuntur corrupti, rem sapiente aliquam, voluptates, vitae dolorum eum amet
+    deleniti consectetur laborum ullam quisquam magnam sunt exercitationem optio neque consequatur ipsum, natus quia
+    eveniet! Temporibus, praesentium maxime! Nihil optio sint molestias, dignissimos, cupiditate modi nostrum animi quae
+    non numquam, repellendus unde id porro? Hic corrupti dolor voluptatibus ab soluta fugit, odit sequi reiciendis
+    inventore praesentium quisquam nulla aut fuga sit alias a ducimus iure.</p>
+</section>
+
+<div class="pimg2">
+  <div class="ptext">
+    <span class="border trans">
+      Image Two Text
+    </span>
+  </div>
+</div>
+
+<section class="section section-dark">
+  <h2>Section One</h2>
+  <p>Lorem ipsum dolor sit amet, consectetur adipisicing elit. Ea iusto corrupti magnam natus saepe veniam numquam error
+    odit, culpa, tempore perspiciatis, doloremque autem possimus consequatur cupiditate doloribus sint dicta quo quae.
+    Maxime placeat necessitatibus natus. Consequuntur corrupti, rem sapiente aliquam, voluptates, vitae dolorum eum amet
+    deleniti consectetur laborum ullam quisquam magnam sunt exercitationem optio neque consequatur ipsum, natus quia
+    eveniet! Temporibus, praesentium maxime! Nihil optio sint molestias, dignissimos, cupiditate modi nostrum animi quae
+    non numquam, repellendus unde id porro? Hic corrupti dolor voluptatibus ab soluta fugit, odit sequi reiciendis
+    inventore praesentium quisquam nulla aut fuga sit alias a ducimus iure.</p>
+</section>
+
+<div class="pimg3">
+  <div class="ptext">
+    <span class="border trans">
+      Animation Will Come Here
+    </span>
+  </div>
+</div>
+
+<section class="section section-dark">
+  <h2>Section Three</h2>
+  <p>Lorem ipsum dolor sit amet, consectetur adipisicing elit. Ea iusto corrupti magnam natus saepe veniam numquam error
+    odit, culpa, tempore perspiciatis, doloremque autem possimus consequatur cupiditate doloribus sint dicta quo quae.
+    Maxime placeat necessitatibus natus. Consequuntur corrupti, rem sapiente aliquam, voluptates, vitae dolorum eum amet
+    deleniti consectetur laborum ullam quisquam magnam sunt exercitationem optio neque consequatur ipsum, natus quia
+    eveniet! Temporibus, praesentium maxime! Nihil optio sint molestias, dignissimos, cupiditate modi nostrum animi quae
+    non numquam, repellendus unde id porro? Hic corrupti dolor voluptatibus ab soluta fugit, odit sequi reiciendis
+    inventore praesentium quisquam nulla aut fuga sit alias a ducimus iure.</p>
+</section>
+
+<div class="pimg4">
+  <div class="ptext">
+    <span class="border trans">
+      Social Networks
+    </span>
   </div>
 </div>

@@ -5,6 +5,22 @@
 @import '../node_modules/alertifyjs/build/css/alertify.min.css';
 @import '../node_modules/alertifyjs/build/css/themes/bootstrap.min.css';
 @import '../node_modules/ngx-bootstrap/datepicker/bs-datepicker.css';
+@import url('https://fonts.googleapis.com/css?family=Dancing Script');
+
+body,
+html {
+  height: 100%;
+  margin: 0;
+  font-size: 16px;
+  font-family: sans-serif;
+  font-weight: 400;
+  line-height: 1.8em;
+  color: rgb(24, 22, 22);
+}
+
+.container {
+  width: 100%;
+}
 
 .tab-panel {
   border: 1px solid #ddd;
